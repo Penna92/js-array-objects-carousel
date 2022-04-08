@@ -19,6 +19,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
+  flex-wrap: wrap;
 }
 .items-container,
 .thumbs-container {
@@ -44,12 +46,36 @@
 }
 .item.active {
   display: block;
+  animation-name: FadeInOut;  
+  animation-timing-function: linear;
+  animation-duration: 3s;
 }
+
+@keyframes FadeInOut {
+  0% {
+    opacity:0.2;
+  }
+  25% {
+    opacity:0.6;
+  }
+  50% {
+    opacity:1;
+  }
+  75% {
+    opacity:1;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
 .thumb {
   height: 20%;
+  opacity: 0.5;
 }
 .thumb.active {
   border: 3px solid white;
+  opacity: 1;
 }
 .item img,
 .thumb img {
@@ -76,5 +102,31 @@
   bottom: -20px;
 }
 div.button{
-  margin-left: 5px;
+  width: 100%;
 }
+#button{
+  width: 100px;
+  height: 50px;
+}
+.bg-red:hover{
+  background-color: red;
+}
+.bg-green:hover{
+  background-color: green;
+}
+.pointer {
+  cursor: pointer;
+}
+
+/* #cf4a img:nth-of-type(1) {
+  animation-delay: 6s;
+}
+#cf4a img:nth-of-type(2) {
+  animation-delay: 4s;
+}
+#cf4a img:nth-of-type(3) {
+  animation-delay: 2s;
+}
+#cf4a img:nth-of-type(4) {
+  animation-delay: 0;
+} */

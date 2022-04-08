@@ -13,33 +13,32 @@ Consegna:
 // CREO ARRAY DI OGGETTI
 
 const items = [
-  {        
+  {
     immagine: "img/01.jpg",
     title: "Svezia",
-    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam, cumque provident totam omnis, magnam dolores dolorum corporis."    
+    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam, cumque provident totam omnis, magnam dolores dolorum corporis.",
   },
-  {        
+  {
     immagine: "img/02.jpg",
     title: "Svizzera",
-    text: "Lorem ipsum"    
+    text: "Lorem ipsum",
   },
-  {        
+  {
     immagine: "img/03.jpg",
     title: "Gran Bretagna",
-    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit."    
+    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
   },
-  {        
+  {
     immagine: "img/04.jpg",
     title: "Germania",
-    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,"    
+    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,",
   },
-  {        
+  {
     immagine: "img/05.jpg",
     title: "Paradise",
-    text: "Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,"    
-  }
+    text: "Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,",
+  },
 ];
-
 
 // const items = [
 //   "img/01.jpg",
@@ -125,10 +124,10 @@ function slideDown() {
 
 function slideUp() {
   const imgs = document.getElementsByClassName("item");
-  // imgs[currentIndexActive].addEventListener("click", stopTimer);  
+  // imgs[currentIndexActive].addEventListener("click", stopTimer);
   imgs[currentIndexActive].classList.remove("active");
   // console.log(imgs[currentIndexActive], "aooo");
-  // imgs[currentIndexActive].addEventListener("click", stopTimer);  
+  // imgs[currentIndexActive].addEventListener("click", stopTimer);
   const thumbs = document.getElementsByClassName("thumb");
   thumbs[currentIndexActive].classList.remove("active");
   //console.log(imgs);
@@ -147,26 +146,32 @@ next.addEventListener("click", slideDown);
 prev.addEventListener("click", slideUp);
 
 // SLIDER TIMER
+let sliderTimer = setInterval(slideUp, 3000);
+// console.log(sliderTimer);
 
-let sliderTimer = setInterval(slideUp, 1000);
-// function stopTimer() {
-//   let stopSliderTimer = clearInterval(sliderTimer);
-//   console.log(stopSliderTimer);
-// }
+//FUNZIONI CHE AL CLICK DEL BOTTONE STOPPANO LA RIPRODUZIONE AUTOMATICA/LA FANNO RIPARTIRE
+const timerButton = document.getElementById("button");
+timerButton.classList.add("bg-red");
+timerButton.addEventListener("click", stopTimer);
 
-  //FUNZIONE CHE AL CLICK DEL BOTTONE STOPPA LA RIPRODUZIONE AUTOMATICA/LA FA RIPARTIRE
+function stopTimer() {
+  console.log("Stopped");
+  clearInterval(sliderTimer[0]);
+  // console.log(sliderTimer);
+  timerButton.removeEventListener("click", stopTimer);
+  clearInterval(sliderTimer);
+  timerButton.addEventListener("click", startTimer);
+  timerButton.innerText = "S T A R T";
+  timerButton.classList.add("bg-green");
+}
 
-  const timerButton = document.getElementById("button");
-  timerButton.addEventListener("click", toggleTimer);
-  
-  function toggleTimer(){
-    let stopSliderTimer = clearInterval(sliderTimer);
-    // console.log(timerButton.innerText);
-    if(timerButton.innerText === "Stop"){
-      timerButton.innerText = "Start";
-    } else if(timerButton.innerText === "Start"){
-      setInterval(slideUp, 1000);
-      timerButton.innerText = "Stop";
-    }
-  }
-
+function startTimer() {
+  sliderTimer = setInterval(slideUp, 3000);
+  console.log("Started");
+  timerButton.removeEventListener("click", startTimer);
+  timerButton.addEventListener("click", stopTimer);
+  timerButton.innerText = "S T O P";
+  timerButton.classList.remove("bg-green");
+  timerButton.classList.add("bg-red");
+  // console.log(sliderTimer);
+}
