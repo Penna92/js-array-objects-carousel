@@ -9,23 +9,55 @@ Consegna:
 3. aggiungere allo slider una timing function per far partire lo slider in automatico (con un bottone per fermarlo)
 4. refactoring
 */
+
+// CREO ARRAY DI OGGETTI
+
 const items = [
-  "img/01.jpg",
-  "img/02.jpg",
-  "img/03.jpg",
-  "img/04.jpg",
-  "img/05.jpg",
+  {        
+    immagine: "img/01.jpg",
+    title: "Svezia",
+    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam, cumque provident totam omnis, magnam dolores dolorum corporis."    
+  },
+  {        
+    immagine: "img/02.jpg",
+    title: "Svizzera",
+    text: "Lorem ipsum"    
+  },
+  {        
+    immagine: "img/03.jpg",
+    title: "Gran Bretagna",
+    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit."    
+  },
+  {        
+    immagine: "img/04.jpg",
+    title: "Germania",
+    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,"    
+  },
+  {        
+    immagine: "img/05.jpg",
+    title: "Paradise",
+    text: "Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,"    
+  }
 ];
 
-const title = ["Svezia", "Svizzera", "Gran Bretagna", "Germania", "Paradise"];
 
-const text = [
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam, cumque provident totam omnis, magnam dolores dolorum corporis.",
-  "Lorem ipsum",
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,",
-  "Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,",
-];
+// const items = [
+//   "img/01.jpg",
+//   "img/02.jpg",
+//   "img/03.jpg",
+//   "img/04.jpg",
+//   "img/05.jpg",
+// ];
+
+// const title = ["Svezia", "Svizzera", "Gran Bretagna", "Germania", "Paradise"];
+
+// const text = [
+//   "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam, cumque provident totam omnis, magnam dolores dolorum corporis.",
+//   "Lorem ipsum",
+//   "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
+//   "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,",
+//   "Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,",
+// ];
 
 //variabile per raccogliere tutto l'html che va in items-container
 let itemTemplate = "";
@@ -44,19 +76,18 @@ for (let i = 0; i < items.length; i++) {
   }
   itemTemplate += `
   <div class="item ${classActive}">
-    <img src="${items[i]}" />
+    <img src="${items[i].immagine}" />
       <div class="title">
-        <h2>${title[i]}</h2>
-        <p>${text[i]}</p>
+        <h2>${items[i].title}</h2>
+        <p>${items[i].text}</p>
       </div>
   </div>`;
   thumbTemplate += `
   <div class="thumb ${classActive}">
-    <img src="${items[i]}" alt="" />
+    <img src="${items[i].immagine}" alt="" />
   </div>`;
 }
 //console.log(thumbTemplate);
-
 // metto in due variabili rispettivamente i contenitori che si trovano nell'html
 const itemsContainer = document.querySelector(".items-container");
 const thumbsContainer = document.querySelector(".thumbs-container");
@@ -91,11 +122,12 @@ function slideDown() {
   //console.log(currentIndexActive);
   thumbs[currentIndexActive].classList.add("active");
 }
+
 function slideUp() {
   const imgs = document.getElementsByClassName("item");
-  imgs[currentIndexActive].addEventListener("click", stopTimer);  
+  // imgs[currentIndexActive].addEventListener("click", stopTimer);  
   imgs[currentIndexActive].classList.remove("active");
-  console.log(imgs[currentIndexActive], "aooo");
+  // console.log(imgs[currentIndexActive], "aooo");
   // imgs[currentIndexActive].addEventListener("click", stopTimer);  
   const thumbs = document.getElementsByClassName("thumb");
   thumbs[currentIndexActive].classList.remove("active");
@@ -109,21 +141,32 @@ function slideUp() {
   imgs[currentIndexActive].classList.add("active");
   //console.log(currentIndexActive);
   thumbs[currentIndexActive].classList.add("active");
-  // timerFunction();
-  // console.log(imgs[currentIndexActive]);
 }
 
 next.addEventListener("click", slideDown);
 prev.addEventListener("click", slideUp);
 
 // SLIDER TIMER
+
 let sliderTimer = setInterval(slideUp, 1000);
-let mainImage = document.getElementsByClassName("active")[0];
-console.log(mainImage);
-// mainImage[0].addEventListener("click", stopTimer);
-function stopTimer() {
-  let stopSliderTimer = clearInterval(sliderTimer);
-  console.log(stopSliderTimer);
-  // next.addEventListener("click", slideDown);
-  // prev.addEventListener("click", slideUp);
-}
+// function stopTimer() {
+//   let stopSliderTimer = clearInterval(sliderTimer);
+//   console.log(stopSliderTimer);
+// }
+
+  //FUNZIONE CHE AL CLICK DEL BOTTONE STOPPA LA RIPRODUZIONE AUTOMATICA/LA FA RIPARTIRE
+
+  const timerButton = document.getElementById("button");
+  timerButton.addEventListener("click", toggleTimer);
+  
+  function toggleTimer(){
+    let stopSliderTimer = clearInterval(sliderTimer);
+    // console.log(timerButton.innerText);
+    if(timerButton.innerText === "Stop"){
+      timerButton.innerText = "Start";
+    } else if(timerButton.innerText === "Start"){
+      setInterval(slideUp, 1000);
+      timerButton.innerText = "Stop";
+    }
+  }
+
