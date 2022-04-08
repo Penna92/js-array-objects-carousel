@@ -122,8 +122,8 @@ let mainImage = document.getElementsByClassName("active")[0];
 console.log(mainImage);
 // mainImage[0].addEventListener("click", stopTimer);
 function stopTimer() {
-  sliderTimer = clearInterval(sliderTimer);
-  console.log(sliderTimer);
+  let stopSliderTimer = clearInterval(sliderTimer);
+  console.log(stopSliderTimer);
   // next.addEventListener("click", slideDown);
   // prev.addEventListener("click", slideUp);
 }
