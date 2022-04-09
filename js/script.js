@@ -40,24 +40,6 @@ const items = [
   },
 ];
 
-// const items = [
-//   "img/01.jpg",
-//   "img/02.jpg",
-//   "img/03.jpg",
-//   "img/04.jpg",
-//   "img/05.jpg",
-// ];
-
-// const title = ["Svezia", "Svizzera", "Gran Bretagna", "Germania", "Paradise"];
-
-// const text = [
-//   "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam, cumque provident totam omnis, magnam dolores dolorum corporis.",
-//   "Lorem ipsum",
-//   "Lorem ipsum, dolor sit amet consectetur adipisicing elit.",
-//   "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,",
-//   "Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam inventore eligendi ex ad ullam,",
-// ];
-
 //variabile per raccogliere tutto l'html che va in items-container
 let itemTemplate = "";
 
@@ -97,13 +79,15 @@ itemsContainer.innerHTML = itemTemplate;
 thumbsContainer.innerHTML += thumbTemplate;
 //document.querySelector(".item").classList.add("active");
 
-//Pulsanti
+//PULSANTI PER SCORRERE MANUALMENTE LO SLIDE
 //.next .fa-circle-chevron-down
 //.prev .fa-circle-chevron-up
 //metto nelle variabili next e prev i due pulsanti
 const next = document.querySelector(" .fa-circle-chevron-down");
 const prev = document.querySelector(" .fa-circle-chevron-up");
 //console.log(next, prev);
+
+// FRECCIA IN GIU'
 function slideDown() {
   //prendere immagine con currentIndexActive e togliere classe active
   const imgs = document.getElementsByClassName("item");
@@ -122,6 +106,7 @@ function slideDown() {
   thumbs[currentIndexActive].classList.add("active");
 }
 
+// FRECCIA IN SU
 function slideUp() {
   const imgs = document.getElementsByClassName("item");
   // imgs[currentIndexActive].addEventListener("click", stopTimer);
@@ -142,12 +127,33 @@ function slideUp() {
   thumbs[currentIndexActive].classList.add("active");
 }
 
+// FUNZIONE CHE MI PERMETTE DI SELEZIONARE L'IMMAGINE PRINCIPALE DIRETTAMETNE DALLA SUA MINIATURA.
+const thumbs = document.getElementsByClassName("thumb");
+const imgs = document.getElementsByClassName("item");
+
+for (let i = 0; i < thumbs.length; i++) {
+  thumbs[i].classList.add("pointer");
+  thumbs[i].addEventListener("click", changeOnClick);
+}
+
+function changeOnClick() {
+  for (let i = 0; i < thumbs.length; i++) {
+    if (this === thumbs[i]) {
+      imgs[currentIndexActive].classList.remove("active");
+      thumbs[currentIndexActive].classList.remove("active");
+      currentIndexActive = i;
+      imgs[currentIndexActive].classList.add("active");
+      thumbs[currentIndexActive].classList.add("active");
+    }
+  }
+}
+
 next.addEventListener("click", slideDown);
 prev.addEventListener("click", slideUp);
 
-// SLIDER TIMER
+// FUNZIONE CHE IMPOSTA LO SCORRIMENTO AUTOMATICO DELLO SLIDER
 let sliderTimer = setInterval(slideUp, 3000);
-// console.log(sliderTimer);
+
 
 //FUNZIONI CHE AL CLICK DEL BOTTONE STOPPANO LA RIPRODUZIONE AUTOMATICA/LA FANNO RIPARTIRE
 const timerButton = document.getElementById("button");
@@ -157,7 +163,6 @@ timerButton.addEventListener("click", stopTimer);
 function stopTimer() {
   console.log("Stopped");
   clearInterval(sliderTimer[0]);
-  // console.log(sliderTimer);
   timerButton.removeEventListener("click", stopTimer);
   clearInterval(sliderTimer);
   timerButton.addEventListener("click", startTimer);
